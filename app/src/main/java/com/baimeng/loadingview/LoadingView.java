@@ -39,8 +39,8 @@ public class LoadingView extends View {
     private LoadingState loadState;
     //屏幕对角线
     private double minRadiu ;
-    //描边宽度
-    private float mPaintWidth ;
+    //扩散动画圆的半径
+    private float mHoloRadius ;
 
     public LoadingView(Context context) {
         this(context,null);
@@ -168,8 +168,6 @@ public class LoadingView extends View {
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     loadState = new ExpendState() ;
-                    mPaint.setStyle(Paint.Style.STROKE);
-                    mPaint.setColor(Color.WHITE);
                 }
 
                 @Override
@@ -210,7 +208,7 @@ public class LoadingView extends View {
 
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
-                    mPaintWidth = (float) animation.getAnimatedValue();
+                    mHoloRadius = (float) animation.getAnimatedValue();
                     invalidate();
                 }
             });
@@ -221,8 +219,12 @@ public class LoadingView extends View {
 
         @Override
         public void draw(Canvas canvas) {
-            mPaint.setStrokeWidth((float) (minRadiu-mPaintWidth));
-            canvas.drawCircle(mCenterX,mCenterY,mPaintWidth,mPaint);
+            float strokeWidth = (float) minRadiu - mHoloRadius ;
+            mPaint.setStyle(Paint.Style.STROKE);
+            mPaint.setColor(Color.WHITE);
+            mPaint.setStrokeWidth(strokeWidth);
+            float radius = strokeWidth / 2 + mHoloRadius ;
+            canvas.drawCircle(mCenterX,mCenterY,radius,mPaint);
         }
     }
 
