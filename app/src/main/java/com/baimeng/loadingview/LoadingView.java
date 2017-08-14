@@ -25,16 +25,21 @@ public class LoadingView extends View {
     private float mCurrentRotationAngle;
     //小圆颜色数组
     private int [] mColors ;
+    //旋转动画执行一周时长
     private long ROTATION_ANIMATION_TIME = 2000;
+    //小圆绕中心点旋转半径
     private double mRotationRadius;
+    //小圆半径
     private float mCircleRadius;
     private Paint mPaint;
+    //中心点X轴坐标
     private int mCenterX ;
+    //中心点Y轴坐标
     private int mCenterY ;
     private LoadingState loadState;
     //屏幕对角线
     private double minRadiu ;
-
+    //描边宽度
     private float mPaintWidth ;
 
     public LoadingView(Context context) {
@@ -61,6 +66,7 @@ public class LoadingView extends View {
         mPaint.setStyle(Paint.Style.FILL);
         mCenterX = getMeasuredWidth() / 2 ;
         mCenterY = getMeasuredHeight() / 2 ;
+        //求对角线的长度
         minRadiu = Math.sqrt( mCenterX*mCenterX + mCenterY*mCenterY);
     }
 
@@ -215,15 +221,6 @@ public class LoadingView extends View {
 
         @Override
         public void draw(Canvas canvas) {
-//            //圆之间的间隔角度
-//            double percentAngle = Math.PI * 2 / mColors.length;
-//            for (int i = 0 ; i < mColors.length ; i++) {
-//                mPaint.setColor(mColors[i]);
-//                double currentAngle = percentAngle * i + mCurrentRotationAngle;
-//                int cx = (int)(mCenterX + mRotationRadius * Math.cos(currentAngle));
-//                int cy = (int)(mCenterY + mRotationRadius * Math.sin(currentAngle));
-//                canvas.drawCircle(cx,cy , mCircleRadius, mPaint);
-//            }
             mPaint.setStrokeWidth((float) (minRadiu-mPaintWidth));
             canvas.drawCircle(mCenterX,mCenterY,mPaintWidth,mPaint);
         }
